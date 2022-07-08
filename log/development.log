@@ -1,0 +1,333 @@
+  [1m[35m (15.7ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (106.8ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (10.5ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateUsers (20220705135126)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (7.8ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "first_name" varchar, "last_name" varchar, "email" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (2.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20220705135126"]]
+  [1m[36mTRANSACTION (13.3ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateBlogs (20220705135220)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (6.7ms)[0m  [1m[35mCREATE TABLE "blogs" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "description" text, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (3.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20220705135220"]]
+  [1m[36mTRANSACTION (47.0ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateOwners (20220705135328)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (7.4ms)[0m  [1m[35mCREATE TABLE "owners" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "blog_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_0c54998f4d"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_f7616ee124"
+FOREIGN KEY ("blog_id")
+  REFERENCES "blogs" ("id")
+)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_owners_on_user_id" ON "owners" ("user_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_owners_on_blog_id" ON "owners" ("blog_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (2.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20220705135328"]]
+  [1m[36mTRANSACTION (14.4ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreatePosts (20220705135600)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (6.2ms)[0m  [1m[35mCREATE TABLE "posts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "content" text, "user_id" integer NOT NULL, "blog_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_5b5ddfd518"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_dda555d01f"
+FOREIGN KEY ("blog_id")
+  REFERENCES "blogs" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_posts_on_user_id" ON "posts" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_posts_on_blog_id" ON "posts" ("blog_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (2.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20220705135600"]]
+  [1m[36mTRANSACTION (13.9ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateMessages (20220705135742)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (9.4ms)[0m  [1m[35mCREATE TABLE "messages" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "author" varchar, "message" text, "user_id" integer NOT NULL, "blog_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_273a25a7a6"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_d181e88356"
+FOREIGN KEY ("blog_id")
+  REFERENCES "blogs" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_messages_on_user_id" ON "messages" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_messages_on_blog_id" ON "messages" ("blog_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (2.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20220705135742"]]
+  [1m[36mTRANSACTION (36.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (2.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (9.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2022-07-05 13:58:14.025502"], ["updated_at", "2022-07-05 13:58:14.025502"]]
+  [1m[36mTRANSACTION (9.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (12.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (3.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "laura@familia.cl"], ["LIMIT", 1]]
+  [1m[36mUser Create (8.9ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["first_name", "Laura"], ["last_name", "Fernández"], ["email", "laura@familia.cl"], ["created_at", "2022-07-05 17:26:27.372360"], ["updated_at", "2022-07-05 17:26:27.372360"]]
+  [1m[36mTRANSACTION (22.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (4.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "hector@familia.cl"], ["LIMIT", 1]]
+  [1m[36mUser Create (13.7ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["first_name", "Héctor"], ["last_name", "Fernández"], ["email", "hector@familia.cl"], ["created_at", "2022-07-05 17:27:01.367507"], ["updated_at", "2022-07-05 17:27:01.367507"]]
+  [1m[36mTRANSACTION (24.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (2.8ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "victoria@familia.cl"], ["LIMIT", 1]]
+  [1m[36mUser Create (7.4ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["first_name", "Victoria"], ["last_name", "Fernández"], ["email", "victoria@familia.cl"], ["created_at", "2022-07-05 17:27:18.720638"], ["updated_at", "2022-07-05 17:27:18.720638"]]
+  [1m[36mTRANSACTION (16.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (2.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "antonio@familia.cl"], ["LIMIT", 1]]
+  [1m[36mUser Create (13.1ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["first_name", "Antonio"], ["last_name", "Chandía"], ["email", "antonio@familia.cl"], ["created_at", "2022-07-05 17:27:54.004635"], ["updated_at", "2022-07-05 17:27:54.004635"]]
+  [1m[36mTRANSACTION (18.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists? (2.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER(?) LIMIT ?[0m  [["email", "eduardo@familia.cl"], ["LIMIT", 1]]
+  [1m[36mUser Create (27.0ms)[0m  [1m[32mINSERT INTO "users" ("first_name", "last_name", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["first_name", "Eduardo"], ["last_name", "Chandía"], ["email", "eduardo@familia.cl"], ["created_at", "2022-07-05 17:28:12.644409"], ["updated_at", "2022-07-05 17:28:12.644409"]]
+  [1m[36mTRANSACTION (22.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (4.8ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mTRANSACTION (1.8ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlog Create (9.5ms)[0m  [1m[32mINSERT INTO "blogs" ("name", "description", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Blog 1 - El Café"], ["description", "En este Blog, se hablará y compartirá sobre el café"], ["created_at", "2022-07-05 17:31:21.968873"], ["updated_at", "2022-07-05 17:31:21.968873"]]
+  [1m[36mTRANSACTION (42.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlog Create (12.7ms)[0m  [1m[32mINSERT INTO "blogs" ("name", "description", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Blog 2 - El Té"], ["description", "En este Blog, se hablará y compartirá sobre el té"], ["created_at", "2022-07-05 17:31:42.632099"], ["updated_at", "2022-07-05 17:31:42.632099"]]
+  [1m[36mTRANSACTION (35.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlog Create (18.9ms)[0m  [1m[32mINSERT INTO "blogs" ("name", "description", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Blog 3 - La Miel"], ["description", "En este Blog, se hablará y compartirá sobre la miel"], ["created_at", "2022-07-05 17:32:35.216130"], ["updated_at", "2022-07-05 17:32:35.216130"]]
+  [1m[36mTRANSACTION (18.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlog Create (33.9ms)[0m  [1m[32mINSERT INTO "blogs" ("name", "description", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Blog 4 - El Maní"], ["description", "En este Blog, se hablará y compartirá sobre el maní"], ["created_at", "2022-07-05 17:33:06.576019"], ["updated_at", "2022-07-05 17:33:06.576019"]]
+  [1m[36mTRANSACTION (14.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlog Create (20.3ms)[0m  [1m[32mINSERT INTO "blogs" ("name", "description", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Blog 5 - Frutos Secos"], ["description", "En este Blog, se hablará y compartirá sobre los frutos secos"], ["created_at", "2022-07-05 17:33:42.729942"], ["updated_at", "2022-07-05 17:33:42.729942"]]
+  [1m[36mTRANSACTION (17.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mBlog Load (3.7ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs"[0m
+  [1m[36mUser Load (11.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mBlog Load (1.6ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOwner Create (10.2ms)[0m  [1m[32mINSERT INTO "owners" ("user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 1], ["blog_id", 1], ["created_at", "2022-07-05 17:38:04.891492"], ["updated_at", "2022-07-05 17:38:04.891492"]]
+  [1m[36mTRANSACTION (42.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (5.6ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mBlog Load (3.6ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOwner Create (13.6ms)[0m  [1m[32mINSERT INTO "owners" ("user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 1], ["blog_id", 2], ["created_at", "2022-07-05 17:38:18.385406"], ["updated_at", "2022-07-05 17:38:18.385406"]]
+  [1m[36mTRANSACTION (13.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (2.8ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mBlog Load (2.8ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOwner Create (14.3ms)[0m  [1m[32mINSERT INTO "owners" ("user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 1], ["blog_id", 3], ["created_at", "2022-07-05 17:38:28.094936"], ["updated_at", "2022-07-05 17:38:28.094936"]]
+  [1m[36mTRANSACTION (175.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mOwner Load (2.7ms)[0m  [1m[34mSELECT "owners".* FROM "owners"[0m
+  [1m[36mUser Load (18.1ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mBlog Load (11.0ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 3]]
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOwner Create (35.8ms)[0m  [1m[32mINSERT INTO "owners" ("user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 2], ["blog_id", 4], ["created_at", "2022-07-05 17:40:16.228566"], ["updated_at", "2022-07-05 17:40:16.228566"]]
+  [1m[36mTRANSACTION (38.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (3.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mBlog Load (3.7ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOwner Create (11.6ms)[0m  [1m[32mINSERT INTO "owners" ("user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 5], ["blog_id", 5], ["created_at", "2022-07-05 17:40:46.332670"], ["updated_at", "2022-07-05 17:40:46.332670"]]
+  [1m[36mTRANSACTION (13.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mOwner Load (4.9ms)[0m  [1m[34mSELECT "owners".* FROM "owners"[0m
+  [1m[36mBlog Load (269.1ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs"[0m
+  [1m[36mUser Load (19.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mTRANSACTION (33.8ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOwner Create (171.7ms)[0m  [1m[32mINSERT INTO "owners" ("user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["blog_id", 1], ["created_at", "2022-07-06 16:40:02.309831"], ["updated_at", "2022-07-06 16:40:02.309831"]]
+  [1m[36mTRANSACTION (121.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (13.7ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOwner Create (38.2ms)[0m  [1m[32mINSERT INTO "owners" ("user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["blog_id", 2], ["created_at", "2022-07-06 16:40:02.766758"], ["updated_at", "2022-07-06 16:40:02.766758"]]
+  [1m[36mTRANSACTION (184.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (15.1ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOwner Create (43.3ms)[0m  [1m[32mINSERT INTO "owners" ("user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["blog_id", 3], ["created_at", "2022-07-06 16:40:03.014578"], ["updated_at", "2022-07-06 16:40:03.014578"]]
+  [1m[36mTRANSACTION (319.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (14.6ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOwner Create (80.5ms)[0m  [1m[32mINSERT INTO "owners" ("user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["blog_id", 4], ["created_at", "2022-07-06 16:40:03.405786"], ["updated_at", "2022-07-06 16:40:03.405786"]]
+  [1m[36mTRANSACTION (103.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (9.1ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOwner Create (9.6ms)[0m  [1m[32mINSERT INTO "owners" ("user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["blog_id", 5], ["created_at", "2022-07-06 16:40:03.607757"], ["updated_at", "2022-07-06 16:40:03.607757"]]
+  [1m[36mTRANSACTION (55.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mOwner Load (22.9ms)[0m  [1m[34mSELECT "owners".* FROM "owners"[0m
+  [1m[36mUser Load (9.9ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mBlog Load (3.2ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPost Create (47.0ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post 1"], ["content", "Existen distintos tipo de té: 1. Té Negro, 2. Té Verde, 3. Té Azul (Oolong), 4. Té Blanco, 5. Té Rojo"], ["user_id", 1], ["blog_id", 2], ["created_at", "2022-07-06 16:51:57.142338"], ["updated_at", "2022-07-06 16:51:57.142338"]]
+  [1m[36mTRANSACTION (106.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (309.4ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mBlog Load (10.5ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPost Create (42.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post 2"], ["content", "Té negro... Es el té mas conocido en el mundo occidental, puesto que todos crecimos remojando bolsitas de té en nuestras tazas. El té negro es un té completamente oxidado. Posee aproximadamente el 20% de cafeína de una taza de café. El té negro puede ayudar a mantener saludables los niveles de colesterol cuando estos se encuentran dentro de los rangos normales, así como también a mantener la función cardiovascular y a mantener un sistema circulatorio sano"], ["user_id", 1], ["blog_id", 2], ["created_at", "2022-07-06 16:55:06.289914"], ["updated_at", "2022-07-06 16:55:06.289914"]]
+  [1m[36mTRANSACTION (38.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (27.6ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mBlog Load (11.3ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (1.4ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPost Create (42.8ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post 3"], ["content", "Té verde... Es el tipo de té más consumido en el mundo, principalmente por ser la bebida mas consumida en Asia. En esta variedad de té las hojas tienen un grado de oxidación mínimo, lo que los fabricantes logran aplicando un golpe de calor a las hojas inmediatamente después de la cosecha. Algunos té verdes son perfumados con esencias de flores mezclados con frutas para crear tés aromatizados y con sabor. Este tipo de té posee gran cantidad de antioxidantes, es bueno para la piel y los dientes y puede usarse para mantener un nivel de azúcar saludable en la sangre"], ["user_id", 1], ["blog_id", 2], ["created_at", "2022-07-06 16:57:14.778305"], ["updated_at", "2022-07-06 16:57:14.778305"]]
+  [1m[36mTRANSACTION (124.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mPost Load (12.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  [1m[36mUser Load (26.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mBlog Load (14.6ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (2.7ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPost Create (43.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post 4"], ["content", "Algunos frutos secos chilenos son: 1. Almendras, 2. Castañas, 3. Maníes, 4. Nueces, 5. Pasas, 6. Dátiles, 7. Pistachos"], ["user_id", 2], ["blog_id", 5], ["created_at", "2022-07-06 17:03:04.788466"], ["updated_at", "2022-07-06 17:03:04.788466"]]
+  [1m[36mTRANSACTION (78.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (22.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mBlog Load (11.5ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPost Create (43.6ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post 5"], ["content", "Las Almendras... tienen un alto contenido en antioxidantes... son fuente de proteínas... Ayudan a controlar el peso. "], ["user_id", 2], ["blog_id", 5], ["created_at", "2022-07-06 17:05:06.332357"], ["updated_at", "2022-07-06 17:05:06.332357"]]
+  [1m[36mTRANSACTION (39.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (56.0ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mBlog Load (10.8ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPost Create (96.7ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post 6"], ["content", "Las Castañas...Eson una fuente destacada de vitamina C, imprescindible para poder absorber el hierro y fabricar, así, glóbulos rojos. Y este elemento también es un buen antioxidante, por lo que el consumo equilibrado de castañas ayuda a prevenir el envejecimiento"], ["user_id", 2], ["blog_id", 5], ["created_at", "2022-07-06 17:06:47.096313"], ["updated_at", "2022-07-06 17:06:47.096313"]]
+  [1m[36mTRANSACTION (42.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (26.6ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mBlog Load (11.4ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPost Create (65.7ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post 7"], ["content", "El maní... es un fruto que contiene hidratos de carbono, proteínas (33%) y vitaminas del complejo B, como la B6 y especialmente niacina o vitamina B3, que ayuda a equilibrar el sistema nervioso. Además, este fruto complementa el valor proteico de los cereales y con él se obtiene una proteína de alto valor biológico"], ["user_id", 2], ["blog_id", 5], ["created_at", "2022-07-06 17:13:18.493244"], ["updated_at", "2022-07-06 17:13:18.493244"]]
+  [1m[36mTRANSACTION (63.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (14.9ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mBlog Load (11.6ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPost Create (21.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post 8"], ["content", "Las nueces... Son ricas en Omega 3... En 25 gramos, las nueces llegan a proporcionar más del 90% de las necesidades diarias de ácidos grasos omega 3... Fuente de proteínas... Ricas en minerales... Fuente de vitamina B "], ["user_id", 2], ["blog_id", 5], ["created_at", "2022-07-06 17:15:18.467863"], ["updated_at", "2022-07-06 17:15:18.467863"]]
+  [1m[36mTRANSACTION (55.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mPost Load (5.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  [1m[36mUser Load (105.6ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mBlog Load (17.0ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mTRANSACTION (1.6ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPost Create (54.6ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post 9"], ["content", "Existen más de 320 variedades de miel, de acuerdo con la Biblioteca Nacional de Medicina de los E.U.A., dependiendo de la especie que recolecta el néctar y las plantas visitadas por las abejas, el color, sabor y olor de miel varían"], ["user_id", 3], ["blog_id", 3], ["created_at", "2022-07-06 17:34:57.471756"], ["updated_at", "2022-07-06 17:34:57.471756"]]
+  [1m[36mTRANSACTION (137.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (243.4ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mBlog Load (11.9ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (14.4ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPost Create (72.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post 10"], ["content", "El maní es técnicamente una legumbre, de la familia de las fabáceas, pues crece en una vaina, sin embargo, se le clasifica como un fruto seco o alimento rico en lípidos ya que su concentración de grasas es mayor al de las leguminosas secas y contiene una menor proporción de proteínas e hidratos de carbono."], ["user_id", 3], ["blog_id", 4], ["created_at", "2022-07-07 03:28:47.500421"], ["updated_at", "2022-07-07 03:28:47.500421"]]
+  [1m[36mTRANSACTION (194.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (230.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mBlog Load (11.4ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPost Create (101.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "user_id", "blog_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post 11"], ["content", "Las pasas, son una buena fuente de minerales como el calcio, que ayuda a fortalecer el sistema óseo y es indispensable en la transmisión del impulso nervioso; el potasio, que ayuda a prevenir la aparición de calambres; y el  hierro, que potencia el sistema inmune y forma parte importante de la sangre."], ["user_id", 3], ["blog_id", 5], ["created_at", "2022-07-07 03:40:58.934991"], ["updated_at", "2022-07-07 03:40:58.934991"]]
+  [1m[36mTRANSACTION (205.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mPost Load (11.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  [1m[36mUser Load (21.1ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mPost Load (7.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mMessage Load (3.7ms)[0m  [1m[34mSELECT "messages".* FROM "messages"[0m
+  [1m[36mUser Load (22.9ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mBlog Load (12.1ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mMessage Load (11.6ms)[0m  [1m[34mSELECT "messages".* FROM "messages"[0m
+  [1m[36mUser Load (13.5ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mPost Load (12.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (15.1ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mBlog Load (11.6ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (64.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mBlog Load (24.5ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (68.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (2.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (3.7ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (2.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (4.9ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUser Load (3.5ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mBlog Load (1.7ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (4.7ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mPost Load (3.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMessage Create (12.4ms)[0m  [1m[32mINSERT INTO "messages" ("author", "message", "user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["author", "Victoria Fernández"], ["message", "Encuentro maravilloso que existan distintos tipos de Té, mi favorito el es azul"], ["user_id", 3], ["post_id", 1], ["created_at", "2022-07-07 04:21:46.015841"], ["updated_at", "2022-07-07 04:21:46.015841"]]
+  [1m[36mTRANSACTION (203.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mMessage Load (5.0ms)[0m  [1m[34mSELECT "messages".* FROM "messages"[0m
+  [1m[36mUser Load (11.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Load (28.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Load (22.8ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mBlog Load (10.9ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (26.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Load (11.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mBlog Load (11.5ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mMessage Load (12.0ms)[0m  [1m[34mSELECT "messages".* FROM "messages"[0m
+  [1m[36mUser Load (10.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Load (2.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Load (58.9ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mBlog Load (12.8ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (27.5ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mBlog Load (12.7ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (28.4ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mBlog Load (12.5ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (39.5ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mBlog Load (13.5ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (13.0ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mPost Load (12.7ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (2.7ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMessage Create (41.1ms)[0m  [1m[32mINSERT INTO "messages" ("author", "message", "user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["author", "Victoria Fernández"], ["message", "Lo mejor de los Tés es que además se pueden combinar con hierbas, flores y frutos, por ejemplo té verde con Jazmín o té negro con cacao, también té rojo con canela, etc."], ["user_id", 3], ["post_id", 1], ["created_at", "2022-07-07 05:21:42.178385"], ["updated_at", "2022-07-07 05:21:42.178385"]]
+  [1m[36mTRANSACTION (40.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (27.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mPost Load (14.9ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMessage Create (40.8ms)[0m  [1m[32mINSERT INTO "messages" ("author", "message", "user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["author", "Victoria Fernández"], ["message", "Les recomiendo la siguiente combinación con Té Negro... Limón y miel: Le da más sabor que el uso de simple azúcar, y el toque cítrico, lo hace más refrescante."], ["user_id", 3], ["post_id", 2], ["created_at", "2022-07-07 05:29:08.353987"], ["updated_at", "2022-07-07 05:29:08.353987"]]
+  [1m[36mTRANSACTION (102.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (17.9ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mPost Load (10.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMessage Create (15.0ms)[0m  [1m[32mINSERT INTO "messages" ("author", "message", "user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["author", "Victoria Fernández"], ["message", "Otra exquisita combinación con Té Negro es... Menta: Agregar un poco de infusión de menta al té le dará el sabor; pero si quieres ir más allá, incluye además algunas hojas frescas al servirlo."], ["user_id", 3], ["post_id", 2], ["created_at", "2022-07-07 05:31:20.144320"], ["updated_at", "2022-07-07 05:31:20.144320"]]
+  [1m[36mTRANSACTION (12.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (19.5ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mPost Load (12.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMessage Create (39.7ms)[0m  [1m[32mINSERT INTO "messages" ("author", "message", "user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["author", "Victoria Fernández"], ["message", "Prueba Té Negro helado así... Moras y piña: Mezcla el té helado a partes iguales con jugo de mora y jugo de piña muy bien colados, endulza y combina con bastante hielo."], ["user_id", 3], ["post_id", 2], ["created_at", "2022-07-07 05:32:52.946272"], ["updated_at", "2022-07-07 05:32:52.946272"]]
+  [1m[36mTRANSACTION (71.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mMessage Load (2.2ms)[0m  [1m[34mSELECT "messages".* FROM "messages"[0m
+  [1m[36mMessage Load (28.3ms)[0m  [1m[34mSELECT "messages".* FROM "messages"[0m
+  [1m[36mUser Load (27.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (12.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (35.5ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 3]]
+  [1m[36mPost Load (15.8ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMessage Create (60.1ms)[0m  [1m[32mINSERT INTO "messages" ("author", "message", "user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["author", "Antonio Chandía"], ["message", " Las pasas son una buena fuente de minerales como el calcio, que ayuda a fortalecer el sistema óseo."], ["user_id", 4], ["post_id", 11], ["created_at", "2022-07-07 05:45:44.662638"], ["updated_at", "2022-07-07 05:45:44.662638"]]
+  [1m[36mTRANSACTION (71.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (23.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mPost Load (11.8ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMessage Create (37.9ms)[0m  [1m[32mINSERT INTO "messages" ("author", "message", "user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["author", "Antonio Chandía"], ["message", "Las pasas son una buena fuente de minerales como el calcio, que es indispensable en la transmisión del sistema nervioso."], ["user_id", 4], ["post_id", 11], ["created_at", "2022-07-07 05:47:53.682353"], ["updated_at", "2022-07-07 05:47:53.682353"]]
+  [1m[36mTRANSACTION (50.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (22.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mPost Load (10.9ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMessage Create (40.9ms)[0m  [1m[32mINSERT INTO "messages" ("author", "message", "user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["author", "Antonio Chandía"], ["message", "Las pasas son una buena fuente de minerales como el potasio, que ayuda a prevenir la aparición de calambres; y el  hierro, que potencia el sistema inmune y forma parte importante de la sangre."], ["user_id", 4], ["post_id", 11], ["created_at", "2022-07-07 05:50:08.211343"], ["updated_at", "2022-07-07 05:50:08.211343"]]
+  [1m[36mTRANSACTION (47.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mMessage Load (131.0ms)[0m  [1m[34mSELECT "messages".* FROM "messages"[0m
+  [1m[36mMessage Load (27.5ms)[0m  [1m[34mSELECT "messages".* FROM "messages"[0m
+  [1m[36mPost Load (35.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mUser Load (14.8ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlog Load (3.7ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mPost Update (12.8ms)[0m  [1m[33mUPDATE "posts" SET "user_id" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["user_id", 5], ["updated_at", "2022-07-07 05:57:45.193430"], ["id", 2]]
+  [1m[36mTRANSACTION (106.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mPost Load (2.8ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  [1m[36mPost Load (24.6ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlog Load (10.8ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mPost Update (27.1ms)[0m  [1m[33mUPDATE "posts" SET "content" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["content", "Acá se pidió cambiar por algo diferente, pero estamos hablando del Té Negro y no quiero se acusado de discriminación, por lo cual se agrega este texto al anterior... Té negro... Es el té mas conocido en el mundo occidental, puesto que todos crecimos remojando bolsitas de té en nuestras tazas. El té negro es un té completamente oxidado. Posee aproximadamente el 20% de cafeína de una taza de café. El té negro puede ayudar a mantener saludables los niveles de colesterol cuando estos se encuentran dentro de los rangos normales, así como también a mantener la función cardiovascular y a mantener un sistema circulatorio sano. "], ["updated_at", "2022-07-07 06:03:51.763317"], ["id", 2]]
+  [1m[36mTRANSACTION (44.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mPost Load (21.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  [1m[36mUser Load (23.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mUser Load (11.1ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mBlog Load (28.6ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" INNER JOIN "owners" ON "blogs"."id" = "owners"."blog_id" WHERE "owners"."user_id" = ?[0m  [["user_id", 3]]
+  [1m[36mUser Load (23.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mBlog Load (12.0ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" INNER JOIN "owners" ON "blogs"."id" = "owners"."blog_id" WHERE "owners"."user_id" = ?[0m  [["user_id", 3]]
+  [1m[36mUser Load (33.2ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mPost Load (16.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."user_id" = ?[0m  [["user_id", 3]]
+  [1m[36mUser Load (11.7ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mPost Load (15.9ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."user_id" = ?[0m  [["user_id", 3]]
+  [1m[36mUser Load (33.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 2]]
+  [1m[36mMessage Load (21.3ms)[0m  [1m[34mSELECT "messages".* FROM "messages" WHERE "messages"."user_id" = ?[0m  [["user_id", 3]]
+  [1m[36mPost Load (19.0ms)[0m  [1m[34mSELECT * FROM "posts" INNER JOIN "users" ON "users"."id" = "posts"."user_id" INNER JOIN "blogs" ON "blogs"."id" = "posts"."blog_id" WHERE (blogs.id = 5)[0m
+  [1m[36mBlog Load (31.7ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mMessage Load (23.8ms)[0m  [1m[34mSELECT * FROM "messages" INNER JOIN "users" ON "users"."id" = "messages"."user_id" WHERE "messages"."post_id" IN (SELECT "posts"."id" FROM "posts" WHERE "posts"."blog_id" = ?)[0m  [["blog_id", 5]]
+  [1m[36mBlog Load (31.1ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" ORDER BY "blogs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (17.9ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "owners" ON "users"."id" = "owners"."user_id" WHERE "owners"."blog_id" = ?[0m  [["blog_id", 1]]
+  [1m[36mBlog Load (12.0ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (12.9ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "owners" ON "users"."id" = "owners"."user_id" WHERE "owners"."blog_id" = ?[0m  [["blog_id", 1]]
+  [1m[36mOwner Update All (94.8ms)[0m  [1m[33mUPDATE "owners" SET user_id = 5 WHERE (id = 1 AND user_id = 1)[0m
+  [1m[36mBlog Load (14.0ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (15.1ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "owners" ON "users"."id" = "owners"."user_id" WHERE "owners"."blog_id" = ?[0m  [["blog_id", 1]]
+  [1m[36mPost Load (54.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  [1m[36mMessage Load (23.1ms)[0m  [1m[34mSELECT "messages".* FROM "messages"[0m
+  [1m[36mUser Load (234.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mUser Load (13.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mUser Load (11.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mPost Load (11.6ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMessage Create (109.7ms)[0m  [1m[32mINSERT INTO "messages" ("author", "message", "user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["author", "Eduardo Chandía"], ["message", "Estoy probando si esto funciona..."], ["user_id", 4], ["post_id", 11], ["created_at", "2022-07-07 19:03:44.006198"], ["updated_at", "2022-07-07 19:03:44.006198"]]
+  [1m[36mTRANSACTION (129.9ms)[0m  [1m[36mcommit transaction[0m
